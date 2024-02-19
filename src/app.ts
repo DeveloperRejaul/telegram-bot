@@ -4,6 +4,7 @@ config()
 import { Telegraf , Context, Format } from'telegraf';
 import { message } from 'telegraf/filters';
 import FormatApi from './format/format';
+import InputApi from './input/input';
 
 
 // check all env variables available
@@ -40,6 +41,9 @@ export default async function main () {
     // ===== explore api start ===========
     const formatApi = new FormatApi(bot);
     await formatApi.listen()
+
+    const inputApi = new InputApi(bot);
+    await inputApi.listen()
 
   
     // handling all text message

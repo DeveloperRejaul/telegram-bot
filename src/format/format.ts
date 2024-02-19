@@ -56,6 +56,32 @@ class FormatApi {
             const spoilerText = Format.spoiler('Spoiler Alert:', 'This is a secret message!');
             ctx.reply(spoilerText);
         });
+        
+        this.bot.hears("formatStrikethrough", (ctx:Context) =>{
+            const strikethroughText = Format.strikethrough('This text is strikethrough');
+            ctx.reply(strikethroughText);
+        });
+
+        this.bot.hears("formatFmtString", (ctx:Context) =>{
+            const formattedString = new Format.FmtString('Hello, world!', [
+                { type: 'bold', offset: 0, length: 5 },
+                { type: 'italic', offset: 7, length: 5 }
+            ]);
+            ctx.reply(formattedString);
+        });
+        
+        this.bot.hears("formatFmt", (ctx:Context) =>{
+            const formattedString = Format.fmt(
+                'Hello, ', 
+                Format.bold('world'), 
+                '! This is ', 
+                Format.italic('formatted'), 
+                ' text.'
+              );
+              
+            ctx.reply(formattedString);
+        });
+
 
     }
 }
