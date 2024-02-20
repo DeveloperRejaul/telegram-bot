@@ -1,10 +1,11 @@
 import {config} from 'dotenv'
 config()
 
-import { Telegraf , Context, Format } from'telegraf';
+import { Telegraf , Context, Format, Markup } from'telegraf';
 import { message } from 'telegraf/filters';
 import FormatApi from './format/format';
 import InputApi from './input/input';
+import MarkupApi from './markup/markup';
 
 
 // check all env variables available
@@ -23,16 +24,17 @@ if(existEnvs) console.log("Environment variables Loaded successfully");
 export default async function main () {
 
     // creating telegram bot 
-    const bot = new Telegraf(process.env.BOT_TOKEN!)
+    const bot:Telegraf = new Telegraf(process.env.BOT_TOKEN!)
 
     // listen /start command
-    bot.start((ctx:Context) => ctx.reply('Welcome'))
+    bot.start((ctx) => ctx.reply('Welcome'))
+    
 
     //listen /help command
-    bot.help((ctx:Context) => ctx.reply('Send me a sticker'))
+    bot.help((ctx) => ctx.reply('Send me a sticker'))
 
     // listen text message
-    bot.hears('hi', (ctx:Context) => ctx.reply('Hey there'))
+    bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
     // creating command
     bot.command('hi', (ctx) => ctx.reply('Hello'))
@@ -44,6 +46,9 @@ export default async function main () {
 
     const inputApi = new InputApi(bot);
     await inputApi.listen()
+
+    const markup = new MarkupApi(bot);
+    await markup.listen()
 
   
     // handling all text message
